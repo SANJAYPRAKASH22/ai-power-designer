@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Zap, Battery, Lightbulb, Music, Monitor, Cpu } from 'lucide-react';
+import { Zap, Battery, Lightbulb, Music, Monitor, Cpu, ArrowRight } from 'lucide-react';
 
 interface Example {
   title: string;
@@ -107,11 +108,19 @@ const difficultyColors = {
 
 interface ExamplesDialogProps {
   children: React.ReactNode;
+  onSelectExample?: (designName: string) => void;
 }
 
-export function ExamplesDialog({ children }: ExamplesDialogProps) {
+export function ExamplesDialog({ children, onSelectExample }: ExamplesDialogProps) {
+  const [open, setOpen] = useState(false);
+
+  const handleSelectExample = (title: string) => {
+    setOpen(false);
+    onSelectExample?.(title);
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
@@ -126,6 +135,7 @@ export function ExamplesDialog({ children }: ExamplesDialogProps) {
             <Card
               key={example.title}
               className="p-4 hover:border-primary/50 transition-colors cursor-pointer group"
+              onClick={() => handleSelectExample(example.title)}
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors">
@@ -161,6 +171,14 @@ export function ExamplesDialog({ children }: ExamplesDialogProps) {
                       <span className="text-accent">{example.specs.efficiency}</span>
                     </div>
                   </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="mt-3 w-full group-hover:bg-primary/10 group-hover:text-primary"
+                  >
+                    Use this design
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
                 </div>
               </div>
             </Card>

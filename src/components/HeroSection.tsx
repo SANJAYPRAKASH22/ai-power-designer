@@ -1,12 +1,23 @@
-import { Zap, Cpu, Shield, Download } from 'lucide-react';
+import { useState } from 'react';
+import { Zap, Cpu, Shield, Download, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { ExamplesDialog } from '@/components/ExamplesDialog';
 
 interface HeroSectionProps {
-  onGetStarted: () => void;
+  onGetStarted: (designName?: string) => void;
 }
 
 export function HeroSection({ onGetStarted }: HeroSectionProps) {
+  const [designName, setDesignName] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (designName.trim()) {
+      onGetStarted(designName.trim());
+    }
+  };
+
   const features = [
     { icon: Zap, label: 'Instant Design', description: 'Complete circuits in seconds' },
     { icon: Cpu, label: 'AI-Powered', description: 'Smart topology selection' },
@@ -41,18 +52,37 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
         </h1>
 
         {/* Subheading */}
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
           Design complete power supply circuits in seconds. Get component recommendations, 
           calculations, schematics, and safety features—all powered by AI.
         </p>
 
+        {/* Search Bar */}
+        <form onSubmit={handleSearch} className="max-w-xl mx-auto mb-8 animate-fade-in" style={{ animationDelay: '0.25s' }}>
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Enter your design name to start (e.g., 5V USB Charger)"
+              value={designName}
+              onChange={(e) => setDesignName(e.target.value)}
+              className="pl-12 pr-32 py-6 text-base bg-card/80 border-border focus:border-primary"
+            />
+            <Button
+              type="submit"
+              variant="hero"
+              size="sm"
+              className="absolute right-2 top-1/2 -translate-y-1/2"
+              disabled={!designName.trim()}
+            >
+              Start Design
+            </Button>
+          </div>
+        </form>
+
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          <Button variant="hero" size="xl" onClick={onGetStarted}>
-            <Zap className="w-5 h-5" />
-            Start Designing
-          </Button>
-          <ExamplesDialog>
+          <ExamplesDialog onSelectExample={onGetStarted}>
             <Button variant="outline" size="xl">
               View Examples
             </Button>

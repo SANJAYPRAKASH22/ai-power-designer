@@ -11,9 +11,10 @@ import type { PowerSupplyRequirements } from '@/types/powerSupply';
 interface RequirementsFormProps {
   onSubmit: (requirements: PowerSupplyRequirements) => void;
   isLoading: boolean;
+  designName?: string;
 }
 
-export function RequirementsForm({ onSubmit, isLoading }: RequirementsFormProps) {
+export function RequirementsForm({ onSubmit, isLoading, designName }: RequirementsFormProps) {
   const [formData, setFormData] = useState<Partial<PowerSupplyRequirements>>({
     inputVoltage: 120,
     inputType: 'AC',
@@ -39,7 +40,9 @@ export function RequirementsForm({ onSubmit, isLoading }: RequirementsFormProps)
   return (
     <div className="w-full max-w-3xl mx-auto px-4">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-foreground mb-2">Design Requirements</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-2">
+          {designName ? `Design: ${designName}` : 'Design Requirements'}
+        </h2>
         <p className="text-muted-foreground">Enter your power supply specifications</p>
       </div>
 
