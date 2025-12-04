@@ -3,7 +3,7 @@ export interface PowerSupplyRequirements {
   inputType: 'AC' | 'DC';
   outputVoltage: number;
   outputCurrent: number;
-  regulationType: 'linear' | 'switching';
+  regulationType: 'linear' | 'buck' | 'boost' | 'buck-boost' | 'flyback' | 'forward' | 'llc';
   topology?: string;
   efficiencyTarget?: number;
   loadType: 'constant' | 'variable';

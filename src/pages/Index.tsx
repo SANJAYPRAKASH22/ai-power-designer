@@ -37,6 +37,11 @@ const Index = () => {
     setState('results');
   };
 
+  const handleBackToHero = () => {
+    setState('hero');
+    setDesignName('');
+  };
+
   const handleBackToInput = () => {
     setState('input');
     setDesign(null);
@@ -48,7 +53,12 @@ const Index = () => {
 
       {state === 'input' && (
         <div className="min-h-screen flex items-center justify-center py-12">
-          <RequirementsForm onSubmit={handleSubmit} isLoading={false} designName={designName} />
+          <RequirementsForm 
+            onSubmit={handleSubmit} 
+            isLoading={false} 
+            designName={designName} 
+            onBack={handleBackToHero}
+          />
         </div>
       )}
 

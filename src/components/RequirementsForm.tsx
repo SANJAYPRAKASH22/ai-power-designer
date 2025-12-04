@@ -5,25 +5,36 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Zap, Settings, Thermometer, ArrowRight, Loader2 } from 'lucide-react';
+import { Zap, Settings, Thermometer, ArrowRight, Loader2, ArrowLeft } from 'lucide-react';
 import type { PowerSupplyRequirements } from '@/types/powerSupply';
 
 interface RequirementsFormProps {
   onSubmit: (requirements: PowerSupplyRequirements) => void;
   isLoading: boolean;
   designName?: string;
+  onBack?: () => void;
 }
 
-export function RequirementsForm({ onSubmit, isLoading, designName }: RequirementsFormProps) {
+export function RequirementsForm({ onSubmit, isLoading, designName, onBack }: RequirementsFormProps) {
   const [formData, setFormData] = useState<Partial<PowerSupplyRequirements>>({
     inputVoltage: 120,
     inputType: 'AC',
     outputVoltage: 5,
     outputCurrent: 2,
-    regulationType: 'switching',
+    regulationType: 'buck',
     loadType: 'variable',
     efficiencyTarget: 85,
   });
+
+  const regulationTypes = [
+    { value: 'linear', label: 'Linear Regulator', description: 'Low noise, simple design, lower efficiency' },
+    { value: 'buck', label: 'Buck Converter', description: 'Step-down, high efficiency' },
+    { value: 'boost', label: 'Boost Converter', description: 'Step-up voltage' },
+    { value: 'buck-boost', label: 'Buck-Boost', description: 'Step-up or step-down' },
+    { value: 'flyback', label: 'Flyback', description: 'Isolated, AC-DC applications' },
+    { value: 'forward', label: 'Forward Converter', description: 'Isolated, higher power' },
+    { value: 'llc', label: 'LLC Resonant', description: 'High efficiency, low EMI' },
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +50,16 @@ export function RequirementsForm({ onSubmit, isLoading, designName }: Requiremen
 
   return (
     <div className="w-full max-w-3xl mx-auto px-4">
+      {/* Back Button */}
+      {onBack && (
+        <div className="flex justify-end mb-4">
+          <Button variant="ghost" size="sm" onClick={onBack}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+        </div>
+      )}
+
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-foreground mb-2">
           {designName ? `Design: ${designName}` : 'Design Requirements'}
@@ -139,32 +160,23 @@ export function RequirementsForm({ onSubmit, isLoading, designName }: Requiremen
 
                 {/* Regulation Type */}
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium">Regulation Type</Label>
-                  <div className="grid grid-cols-2 gap-4">
-                    <button
-                      type="button"
-                      onClick={() => updateField('regulationType', 'linear')}
-                      className={`p-4 rounded-lg border transition-all ${
-                        formData.regulationType === 'linear'
-                          ? 'border-primary bg-primary/10 text-foreground'
-                          : 'border-border bg-secondary/30 text-muted-foreground hover:border-muted-foreground'
-                      }`}
-                    >
-                      <div className="font-semibold mb-1">Linear</div>
-                      <div className="text-xs">Low noise, simple design</div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => updateField('regulationType', 'switching')}
-                      className={`p-4 rounded-lg border transition-all ${
-                        formData.regulationType === 'switching'
-                          ? 'border-primary bg-primary/10 text-foreground'
-                          : 'border-border bg-secondary/30 text-muted-foreground hover:border-muted-foreground'
-                      }`}
-                    >
-                      <div className="font-semibold mb-1">Switching</div>
-                      <div className="text-xs">High efficiency, compact</div>
-                    </button>
+                  <Label className="text-sm font-medium">Topology / Regulation Type</Label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {regulationTypes.map((type) => (
+                      <button
+                        key={type.value}
+                        type="button"
+                        onClick={() => updateField('regulationType', type.value as PowerSupplyRequirements['regulationType'])}
+                        className={`p-3 rounded-lg border transition-all text-left ${
+                          formData.regulationType === type.value
+                            ? 'border-primary bg-primary/10 text-foreground'
+                            : 'border-border bg-secondary/30 text-muted-foreground hover:border-muted-foreground'
+                        }`}
+                      >
+                        <div className="font-semibold text-sm mb-1">{type.label}</div>
+                        <div className="text-xs opacity-80">{type.description}</div>
+                      </button>
+                    ))}
                   </div>
                 </div>
               </TabsContent>
