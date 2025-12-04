@@ -4,19 +4,42 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
   const isLinear = requirements.regulationType === 'linear';
   const outputPower = requirements.outputVoltage * requirements.outputCurrent;
   
-  // Determine topology
+  // Determine topology based on regulation type
   let topology = 'Buck Converter';
   let topologyReason = '';
   
-  if (isLinear) {
-    topology = 'Linear Regulator';
-    topologyReason = `A linear regulator (LM7805 series) is ideal for your ${requirements.outputVoltage}V/${requirements.outputCurrent}A requirement. It provides excellent voltage regulation with minimal output noise, making it perfect for sensitive analog circuits. The trade-off is lower efficiency (~60%) but the simplicity and low component count make it cost-effective for this power level.`;
-  } else if (requirements.inputVoltage > requirements.outputVoltage) {
-    topology = 'Buck Converter';
-    topologyReason = `A Buck (step-down) converter is optimal for stepping down ${requirements.inputVoltage}V to ${requirements.outputVoltage}V. It offers high efficiency (~${requirements.efficiencyTarget || 85}%) and handles your ${requirements.outputCurrent}A current requirement well. The synchronous buck topology minimizes losses through MOSFET switching.`;
-  } else {
-    topology = 'Boost Converter';
-    topologyReason = `A Boost (step-up) converter is required since your input (${requirements.inputVoltage}V) is lower than the desired output (${requirements.outputVoltage}V). This topology efficiently boosts voltage while maintaining current capability.`;
+  switch (requirements.regulationType) {
+    case 'linear':
+      topology = 'Linear Regulator';
+      topologyReason = `A linear regulator (LM7805 series) is ideal for your ${requirements.outputVoltage}V/${requirements.outputCurrent}A requirement. It provides excellent voltage regulation with minimal output noise, making it perfect for sensitive analog circuits. The trade-off is lower efficiency (~60%) but the simplicity and low component count make it cost-effective for this power level.`;
+      break;
+    case 'buck':
+      topology = 'Buck Converter';
+      topologyReason = `A Buck (step-down) converter is optimal for stepping down ${requirements.inputVoltage}V to ${requirements.outputVoltage}V. It offers high efficiency (~${requirements.efficiencyTarget || 85}%) and handles your ${requirements.outputCurrent}A current requirement well. The synchronous buck topology minimizes losses through MOSFET switching.`;
+      break;
+    case 'boost':
+      topology = 'Boost Converter';
+      topologyReason = `A Boost (step-up) converter is required since your input (${requirements.inputVoltage}V) is lower than the desired output (${requirements.outputVoltage}V). This topology efficiently boosts voltage while maintaining current capability.`;
+      break;
+    case 'buck-boost':
+      topology = 'Buck-Boost Converter';
+      topologyReason = `A Buck-Boost converter provides flexibility when input voltage may be above or below the output. It can regulate ${requirements.outputVoltage}V output from a wide ${requirements.inputVoltage}V input range, ideal for battery-powered applications.`;
+      break;
+    case 'flyback':
+      topology = 'Flyback Converter';
+      topologyReason = `A Flyback converter provides galvanic isolation between input and output, essential for AC-DC applications. It handles your ${requirements.outputVoltage}V/${requirements.outputCurrent}A requirement with good efficiency and is cost-effective for power levels under 100W.`;
+      break;
+    case 'forward':
+      topology = 'Forward Converter';
+      topologyReason = `A Forward converter is selected for higher power isolated applications. It provides better efficiency than flyback at your power level and handles continuous power delivery more effectively.`;
+      break;
+    case 'llc':
+      topology = 'LLC Resonant Converter';
+      topologyReason = `An LLC resonant converter achieves the highest efficiency (>95%) with zero-voltage switching (ZVS). It produces minimal EMI and is ideal for high-performance applications requiring ${requirements.outputVoltage}V/${requirements.outputCurrent}A.`;
+      break;
+    default:
+      topology = 'Buck Converter';
+      topologyReason = `A Buck (step-down) converter is optimal for stepping down ${requirements.inputVoltage}V to ${requirements.outputVoltage}V with high efficiency.`;
   }
 
   const efficiency = isLinear 
