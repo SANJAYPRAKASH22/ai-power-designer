@@ -13,10 +13,13 @@ const Index = () => {
   const [state, setState] = useState<AppState>('hero');
   const [design, setDesign] = useState<PowerSupplyDesign | null>(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [designName, setDesignName] = useState('');
 
-  const handleGetStarted = () => {
+  const handleGetStarted = (name?: string) => {
+    if (name) {
+      setDesignName(name);
+    }
     setState('input');
-    // Scroll to form
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 100);
@@ -45,7 +48,7 @@ const Index = () => {
 
       {state === 'input' && (
         <div className="min-h-screen flex items-center justify-center py-12">
-          <RequirementsForm onSubmit={handleSubmit} isLoading={false} />
+          <RequirementsForm onSubmit={handleSubmit} isLoading={false} designName={designName} />
         </div>
       )}
 
