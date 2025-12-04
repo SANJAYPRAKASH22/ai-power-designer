@@ -1,5 +1,6 @@
 import { Zap, Cpu, Shield, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ExamplesDialog } from '@/components/ExamplesDialog';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -51,9 +52,11 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
             <Zap className="w-5 h-5" />
             Start Designing
           </Button>
-          <Button variant="outline" size="xl">
-            View Examples
-          </Button>
+          <ExamplesDialog>
+            <Button variant="outline" size="xl">
+              View Examples
+            </Button>
+          </ExamplesDialog>
         </div>
 
         {/* Feature cards */}
