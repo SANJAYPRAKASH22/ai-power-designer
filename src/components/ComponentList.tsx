@@ -85,7 +85,7 @@ export function ComponentList({ components, totalCost }: ComponentListProps) {
                   <TableCell className="font-mono text-sm">{component.value}</TableCell>
                   <TableCell>{component.quantity}</TableCell>
                   <TableCell className="text-right font-mono">
-                    ${component.estimatedCost.toFixed(2)}
+                    ₹{component.estimatedCost.toFixed(2)}
                   </TableCell>
                 </TableRow>
               ))}
@@ -97,7 +97,7 @@ export function ComponentList({ components, totalCost }: ComponentListProps) {
           <div className="flex items-center justify-between">
             <span className="text-muted-foreground">Total Estimated Cost</span>
             <span className="text-2xl font-bold font-mono text-primary">
-              ${totalCost.toFixed(2)}
+              ₹{totalCost.toFixed(2)}
             </span>
           </div>
         </div>

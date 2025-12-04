@@ -58,7 +58,7 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
       partNumber: requirements.outputVoltage === 5 ? 'LM7805CT' : `LM78${String(requirements.outputVoltage).padStart(2, '0')}CT`,
       rating: '1.5A max',
       quantity: 1,
-      estimatedCost: 0.85,
+      estimatedCost: 70,
       datasheet: 'https://www.ti.com/lit/ds/symlink/lm7805c.pdf',
     },
     {
@@ -69,7 +69,7 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
       partNumber: 'C330N50V',
       rating: '50V',
       quantity: 1,
-      estimatedCost: 0.15,
+      estimatedCost: 12,
     },
     {
       id: '3',
@@ -79,7 +79,7 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
       partNumber: 'C100N25V',
       rating: '25V',
       quantity: 1,
-      estimatedCost: 0.10,
+      estimatedCost: 8,
     },
     {
       id: '4',
@@ -89,7 +89,7 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
       partNumber: '1N4007',
       rating: '1000V, 1A',
       quantity: 2,
-      estimatedCost: 0.20,
+      estimatedCost: 15,
     },
   ] : [
     {
@@ -100,7 +100,7 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
       partNumber: 'LM2596S-ADJ',
       rating: '3A, 150kHz',
       quantity: 1,
-      estimatedCost: 2.50,
+      estimatedCost: 210,
       datasheet: 'https://www.ti.com/lit/ds/symlink/lm2596.pdf',
     },
     {
@@ -111,7 +111,7 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
       partNumber: 'SRR1280-330M',
       rating: '4.2A sat, 0.023Ω DCR',
       quantity: 1,
-      estimatedCost: 1.85,
+      estimatedCost: 155,
     },
     {
       id: '3',
@@ -121,7 +121,7 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
       partNumber: 'ECA-1HM681',
       rating: '50V, Low ESR',
       quantity: 1,
-      estimatedCost: 0.75,
+      estimatedCost: 62,
     },
     {
       id: '4',
@@ -131,7 +131,7 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
       partNumber: 'ECA-1CM221',
       rating: '16V, Low ESR',
       quantity: 2,
-      estimatedCost: 0.90,
+      estimatedCost: 75,
     },
     {
       id: '5',
@@ -141,7 +141,7 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
       partNumber: 'SS54',
       rating: '40V, 5A, 0.5V Vf',
       quantity: 1,
-      estimatedCost: 0.45,
+      estimatedCost: 38,
     },
     {
       id: '6',
@@ -151,7 +151,7 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
       partNumber: 'CRCW04021K00FKED',
       rating: '1%, 0402',
       quantity: 1,
-      estimatedCost: 0.05,
+      estimatedCost: 4,
     },
     {
       id: '7',
@@ -161,7 +161,7 @@ export function generateMockDesign(requirements: PowerSupplyRequirements): Power
       partNumber: 'CRCW04022K70FKED',
       rating: '1%, 0402',
       quantity: 1,
-      estimatedCost: 0.05,
+      estimatedCost: 4,
     },
   ];
 
